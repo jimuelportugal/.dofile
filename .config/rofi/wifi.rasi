@@ -1,0 +1,81 @@
+* {
+    font: "JetBrains Mono 11";
+    bg: rgba(14, 10, 20, 0.92);
+    bg-alt: rgba(255, 77, 148, 0.12);
+    fg: #f8f8fc;
+    fg-alt: #8c7d9c;
+    accent: #ff4d94;
+    border-col: #ff4d94;
+
+    background-color: transparent;
+    text-color: @fg;
+    margin: 0;
+    padding: 0;
+    spacing: 0;
+}
+
+window {
+    location: north east;
+    anchor: north east;
+    x-offset: -120px;
+    y-offset: 40px;
+    width: 320px;
+    border: 1px solid;
+    border-color: @border-col;
+    border-radius: 4px;
+    background-color: @bg;
+}
+
+mainbox {
+    padding: 10px;
+    children: [ inputbar, listview ];
+}
+
+inputbar {
+    padding: 4px 6px 10px 6px;
+    border: 0 0 1px 0 solid;
+    border-color: rgba(255, 77, 148, 0.3);
+    children: [ prompt, entry ];
+}
+
+prompt {
+    text-color: @accent;
+    font-weight: 700;
+    margin: 0 8px 0 0;
+}
+
+entry {
+    text-color: @fg;
+    placeholder: "Search SSID...";
+    placeholder-color: @fg-alt;
+}
+
+listview {
+    lines: 8;
+    columns: 1;
+    fixed-height: false;
+    margin: 6px 0 0 0;
+    spacing: 4px;
+}
+
+element {
+    padding: 6px 8px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+element normal.normal {
+    text-color: @fg;
+}
+
+element selected.normal {
+    background-color: @bg-alt;
+    text-color: @accent;
+    border: 0 0 0 2px solid;
+    border-color: @accent;
+}
+
+element-text {
+    text-color: inherit;
+    font-weight: 700;
+}

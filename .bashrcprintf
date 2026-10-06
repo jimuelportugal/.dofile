@@ -1,0 +1,15 @@
+printf "MySQL Authentication Log Data
+
+2026-04-22 08:55:12 | LOGIN | user: admin | host: 192.168.10.5 | status: FAILED | reason: invalid password
+2026-04-22 08:55:15 | LOGIN | user: admin | host: 192.168.10.5 | status: FAILED | reason: invalid password
+2026-04-22 08:55:18 | LOGIN | user: admin | host: 192.168.10.5 | status: FAILED | reason: invalid password
+2026-04-22 08:55:21 | LOGIN | user: admin | host: 192.168.10.5 | status: SUCCESS | reason: authentication accepted
+2026-04-22 08:55:22 | QUERY | user: admin | action: SELECT * FROM users;
+" MySQL Authentication Log Data
+
+2026-04-22 08:55:12 | LOGIN | user: admin | host: 192.168.10.5 | status: FAILED | reason: invalid password
+2026-04-22 08:55:15 | LOGIN | user: admin | host: 192.168.10.5 | status: FAILED | reason: invalid password
+2026-04-22 08:55:18 | LOGIN | user: admin | host: 192.168.10.5 | status: FAILED | reason: invalid password
+2026-04-22 08:55:21 | LOGIN | user: admin | host: 192.168.10.5 | status: SUCCESS | reason: authentication accepted
+2026-04-22 08:55:22 | QUERY | user: admin | action: SELECT * FROM users;
+

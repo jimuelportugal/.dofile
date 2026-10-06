@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="GtkMenu" id="menu">
+    <child>
+      <object class="GtkMenuItem" id="terminal">
+        <property name="label">Terminal (Ptyxis)</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="browser">
+        <property name="label">Web Browser (Brave)</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="files">
+        <property name="label">File Manager (Nautilus)</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkSeparatorMenuItem"/>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="drawer">
+        <property name="label">All Applications...</property>
+      </object>
+    </child>
+  </object>
+</interface>
