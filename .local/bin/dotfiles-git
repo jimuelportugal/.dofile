@@ -1,0 +1,42 @@
+GIT_CMD="/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
+
+# List of core paths to track in the dotfiles repository cause am lazy and don't want to add them manually every time I add/change a file
+CORE_PATHS=(
+    ".config/fcitx5"
+    ".config/hypr"
+    ".config/waybar"
+    ".config/ptyxis"
+    ".bashrc"
+)
+
+stage_all() {
+    # Automatically stage the dotfiles-git script
+    (cd "$HOME" && $GIT_CMD add ".local/bin/dotfiles-git")
+    (cd "$HOME" && $GIT_CMD add -u "${CORE_PATHS[@]}")
+}
+
+case "$1" in
+    commit)
+        stage_all
+        $GIT_CMD "$@"
+        ;;
+    push)
+        stage_all
+        if ! (cd "$HOME" && $GIT_CMD diff --cached --quiet); then
+            $GIT_CMD commit -m "sync: update dotfiles and dotfiles-git helper"
+        fi
+        $GIT_CMD "$@"
+        ;;
+    add)
+        shift
+        files=()
+        for f in "$@"; do
+            rel_path=$(realpath --relative-to="$HOME" "$f" 2>/dev/null || echo "$f")
+            files+=("$rel_path")
+        done
+        (cd "$HOME" && $GIT_CMD add "${files[@]}")
+        ;;
+    *)
+        $GIT_CMD "$@"
+        ;;
+esac
