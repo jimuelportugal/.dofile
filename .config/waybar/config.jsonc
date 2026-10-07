@@ -54,7 +54,7 @@
             }
         },
         "custom/language": {
-        "exec": "fcitx5-remote -n | sed 's/keyboard-us/EN/; s/mozc/あ/'",
+        "exec": "pgrep -x fcitx5 >/dev/null && fcitx5-remote -n | sed 's/keyboard-us/EN/; s/mozc/あ/' || echo 'EN'",
         "interval": 1,
         "format": "{}",
         "on-click": "fcitx5-remote -t"

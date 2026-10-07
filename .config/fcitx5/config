@@ -1,6 +1,6 @@
 [Hotkey]
 # Enumerate when holding modifier of Toggle key
-# EnumerateWithTriggerKeys=True
+EnumerateWithTriggerKeys=False
 # Consume redundant Activate/Deactivate key
 # ConsumeRedundantActivateKeys=False
 # Enumerate Input Method Forward
@@ -10,7 +10,7 @@
 # Skip first input method while enumerating
 # EnumerateSkipFirst=False
 # Time limit in milliseconds for triggering modifier key shortcuts
-# ModifierOnlyKeyTimeout=250
+ModifierOnlyKeyTimeout=0
 
 [Hotkey/TriggerKeys]
 0=Super+grave
@@ -53,7 +53,7 @@
 # Reset state on Focus In
 # resetStateWhenFocusIn=No
 # Share Input State
-ShareInputState=All
+# ShareInputState=No
 # Show preedit in application
 # PreeditEnabledByDefault=True
 # Show Input Method Information when switch input method
@@ -72,8 +72,6 @@ ShareInputState=All
 # CustomXkbOption=
 # Force Enabled Addons
 # EnabledAddons=
-# Force Disabled Addons
-# DisabledAddons=
 # Preload input method to be used by default
 # PreloadInputMethod=True
 # Allow input method in the password field
@@ -82,4 +80,7 @@ ShareInputState=All
 # ShowPreeditForPassword=False
 # Interval of saving user data in minutes
 # AutoSavePeriod=30
+
+[Behavior/DisabledAddons]
+0=waylandim
 
