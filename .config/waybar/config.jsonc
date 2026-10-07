@@ -14,32 +14,14 @@
         "modules-right": [
             "group/right-capsule"
         ],
+        
+        // Left capsule
         "group/left-capsule": {
             "orientation": "horizontal",
             "modules": [
                 "hyprland/workspaces",
-                "clock"
-            ]
-        },
-        "group/center-capsule": {
-            "orientation": "horizontal",
-            "modules": [
-                "cpu",
-                "memory",
-                "disk",
-                "temperature"
-            ]
-        },
-        "group/right-capsule": {
-            "orientation": "horizontal",
-            "modules": [
-                "tray",
-                "idle_inhibitor",
-                "network",
-                "backlight",
-                "pulseaudio",
-                "power-profiles-daemon",
-                "battery"
+                "clock",
+                "custom/language"
             ]
         },
         "hyprland/workspaces": {
@@ -49,28 +31,89 @@
         },
         "clock": {
             "interval": 1,
-            "format": "| {:%H∶%M∶%S}",
-            "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+            "format": "│  {:%H:%M:%S}",
+            "format-alt": "│  {:%A, %B %d, %Y}",
+            "tooltip-format": "<tt><small>{calendar}</small></tt>",
+            "calendar": {
+                "mode": "month",
+                "mode-mon-col": 3,
+                "weeks-pos": "right",
+                "on-scroll": 1,
+                "format": {
+                    "months": "<span color='#ffead3'><b>{}</b></span>",
+                    "days": "<span color='#ecc6d9'><b>{}</b></span>",
+                    "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
+                    "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+                    "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+                }
+            },
+            "actions": {
+                "on-click-right": "mode",
+                "on-scroll-up": "shift_up",
+                "on-scroll-down": "shift_down"
+            }
+        },
+        "custom/language": {
+        "exec": "fcitx5-remote -n | sed 's/keyboard-us/EN/; s/mozc/あ/'",
+        "interval": 1,
+        "format": "{}",
+        "on-click": "fcitx5-remote -t"
+        },
+
+        // Center capsule
+        "group/center-capsule": {
+            "orientation": "horizontal",
+            "modules": [
+                "cpu",
+                "memory",
+                "disk",
+                "temperature",
+                "network"
+            ]
         },
         "cpu": {
-            "format": "{usage}% ",
+            "format": "{usage}%|",
             "tooltip": false
         },
         "memory": {
-            "format": "{}% "
+            "format": "{}|"
         },
         "disk": {
             "interval": 30,
-            "format": "{percentage_used}% ",
+            "format": "{percentage_used}%|",
             "path": "/"
         },
         "temperature": {
             "critical-threshold": 80,
-            "format": "{temperatureC}°C {icon}",
-            "format-icons": ["", "", ""]
+            "format": "{temperatureC}°C|🌡"
+        },
+        "network": {
+            "interval": 1,
+            "format-wifi": "{signalStrength}%|🌐︎",
+            "format-ethernet": "{signalStrength}%|모",
+            "format-disconnected": "",
+            "tooltip-format": "{essid} ({ipaddr})\n⇣ {bandwidthDownBytes} | ⇡ {bandwidthUpBytes}",
+            "tooltip-format-ethernet": "{ifname} ({ipaddr})\n⇣ {bandwidthDownBytes} | ⇡ {bandwidthUpBytes}",
+            "tooltip-format-disconnected": "Disconnected"
+        },
+
+        // Right capsule
+        "group/right-capsule": {
+            "orientation": "horizontal",
+            "modules": [
+                "tray",
+                "backlight",
+                "pulseaudio",
+                "battery",
+                "power-profiles-daemon",
+                "idle_inhibitor"
+            ]
+        },
+        "tray": {
+            "spacing": 10
         },
         "backlight": {
-            "format": "{percent}% {icon}",
+            "format": "│ {percent}%|{icon}",
             "format-icons": ["🌑", "🌘", "🌗", "🌖", "🌕"],
             "on-click": "python3 /home/irys/.config/waybar/scripts/slider-popup.py brightness",
             "on-scroll-up": "brightnessctl set 5%+",
@@ -78,10 +121,10 @@
             "smooth-scrolling-threshold": 1
         },
         "pulseaudio": {
-            "format": "{volume}% {icon}",
-            "format-bluetooth": "{volume}% {icon}",
-            "format-bluetooth-muted": " {icon}",
-            "format-muted": "",
+            "format": "{volume}%|{icon}",
+            "format-bluetooth": "{volume}%|{icon}",
+            "format-bluetooth-muted": "|{icon}",
+            "format-muted": "|",
             "format-icons": {
                 "headphone": "",
                 "hands-free": "",
@@ -96,47 +139,28 @@
             "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
             "smooth-scrolling-threshold": 1
         },
-        "network": {
-            "format-wifi": "{essid} ({signalStrength}%) ",
-            "format-ethernet": "{ipaddr}/{cidr} ",
-            "tooltip-format": "{ifname} via {gwaddr} ",
-            "format-linked": "{ifname} (No IP) ",
-            "format-disconnected": "Disconnected ⚠",
-            "on-click": "nm-connection-editor",
-            "on-click-right": ""
-        },
         "battery": {
-            "states": {
-                "warning": 30,
-                "critical": 15
-            },
-            "format": "{capacity}% {icon}",
-            "format-full": "{capacity}% {icon}",
-            "format-charging": "{capacity}% ",
-            "format-plugged": "{capacity}% ",
-            "format-alt": "{time} {icon}",
-            "format-icons": ["", "", "", "", ""]
+        "format": "{capacity}%|☕︎"
         },
         "power-profiles-daemon": {
-            "format": "{icon}",
+            "format": " {icon} ",
             "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
             "tooltip": true,
             "format-icons": {
                 "default": "",
-                "performance": "",
+                "performance": "🗿",
                 "balanced": "",
                 "power-saver": ""
             }
         },
         "idle_inhibitor": {
-            "format": "{icon}",
+            "format": " {icon} ",
             "format-icons": {
-                "activated": "",
-                "deactivated": ""
+                "activated": "●",
+                "deactivated": "⚬"
             }
-        },
-        "tray": {
-            "spacing": 10
         }
     }
 ]
+
+// 🗓  A

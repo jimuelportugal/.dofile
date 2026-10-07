@@ -1,86 +1,66 @@
+/* ~/.config/waybar/style.css */
 * {
     border: none;
     border-radius: 0;
-    font-family: "JetBrains Mono", "Font Awesome 6 Free", monospace;
-    font-size: 12px;
-    font-weight: 700;
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 13px;
+    font-weight: 500;
     min-height: 0;
 }
 
-/* Base Bar Completely Transparent */
 window#waybar {
     background: transparent;
-    color: #f8f8fc;
+    color: #e0def4;
 }
 
-/* 3 Island Capsules */
 .modules-left,
 .modules-center,
-.modules-right,
-.left-capsule,
-.center-capsule,
-.right-capsule {
-    background: rgba(14, 10, 20, 0.85);
-    border: 1px solid rgba(255, 42, 133, 0.35);
-    border-radius: 12px;
-    padding: 2px 8px;
-    margin: 3px 6px;
-}
-
-/* Left - Workspaces */
-#workspaces {
-    font-size: 11px;
+.modules-right {
+    background: rgba(22, 22, 30, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 1px 10px;
 }
 
 #workspaces button {
-    padding: 0 5px;
-    background: transparent;
-    color: #8c7d9c;
+    padding: 0 6px;
+    color: #6e6a86;
+    border-radius: 10px;
 }
 
 #workspaces button.active {
-    color: #ff4d94;
-    border-bottom: 2px solid #ff2a85;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
 }
 
-#workspaces button.urgent {
-    color: #ff2a4b;
-}
-
-/* Module Text & Accents */
 #clock,
 #cpu,
 #memory,
 #disk,
 #temperature,
-#idle_inhibitor,
-#pulseaudio,
+#tray,
 #network,
-#power-profiles-daemon,
-#backlight,
 #battery,
-#tray {
-    background: transparent;
-    color: #ff4d94;
+#backlight,
+#pulseaudio {
     padding: 0 6px;
-    margin: 0;
-}
-
-#clock {
-    letter-spacing: 1px;
-}
-
-/* Warnings & Critical Overrides */
-#temperature.critical,
-#network.disconnected,
-#battery.critical:not(.charging) {
-    color: #ff2a4b;
+    color: #e0def4;
 }
 
 #battery.warning {
-    color: #ff7597;
+    color: #ff0000;
 }
 
-#pulseaudio.muted {
-    color: #8c7d9c;
+#battery.critical:not(.charging) {
+    color: #ff0000;
+}
+
+#temperature.critical {
+    color: #ff0000;
+}
+
+#custom-language {
+    padding: 0 8px;
+    font-weight: bold;
+    color: #89b4fa;
 }
