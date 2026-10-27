@@ -1,39 +1,66 @@
-# MENDOU
+# Dotfiles - Fedora Hyprland
 
-Personal dotfiles managed via a Git bare repository targeting `$HOME`.
-
-> **Note:** This is my first Linux rice. Everything is tailored strictly to my personal preferences, hardware, and day-to-day workflow rather than a generic or commercial desktop setup. An auto-installer script will be added in the future.
+Personal dotfiles and Wayland desktop environment setup for **Fedora Linux** using **Hyprland**, **Waybar**, and custom **GTK Layer-Shell** widgets.
 
 ---
 
-## Tracked Components
+## 📂 Repository Structure
 
-- **Compositor:** Hyprland (`.config/hypr`)
-- **Status Bar:** Waybar (`.config/waybar`)
-- **Input Method:** Fcitx5 (`.config/fcitx5`)
-- **Key Remapping:** input-remapper-2 (`.config/input-remapper-2`)
-- **Session Menu:** wlogout (`.config/wlogout`)
-- **App Launcher / Menus:** Rofi (`.config/rofi`)
-- **Audio Routing:** PipeWire (`.config/pipewire`)
-- **Shell Environment:** Bash (`.bashrc`, `.bash_aliases`, `.bashrcprintf`)
-- **CLI Helper:** `dotfiles-git` (`.local/bin/dotfiles-git`)
+Matches the standard `$HOME` hierarchy:
+
+```text
+.
+├── .config/
+│   ├── fcitx5/              # Input method configs (Mozc + US ANSI)
+│   ├── gtk-3.0/             # Dark theme settings & custom CSS
+│   ├── hypr/                # Hyprland window manager & custom Python scripts
+│   │   ├── hyprland.conf
+│   │   ├── screenshot-active.sh
+│   │   ├── wallpaper.jpg
+│   │   └── scripts/
+│   │       ├── drawer.py          # Custom GTK Layer-Shell App Drawer
+│   │       └── quicksettings.py   # Custom GTK Layer-Shell Quick Settings
+│   ├── input-remapper-2/    # Key & mouse remapping presets
+│   ├── nwg-drawer/          # Drawer styles
+│   ├── pipewire/            # PipeWire reverse-audio configuration
+│   ├── rofi/                # Wi-Fi menu styling (wifi.rasi)
+│   ├── waybar/              # 3-capsule Waybar layout, scripts & styles
+│   └── wlogout/             # Lock/Logout/Suspend overlay menu themes & icons
+├── .local/
+│   └── bin/                 # User scripts (e.g. dotfiles-git)
+├── install.sh               # Automated symlink installer for fresh setups
+└── README.md
+```
 
 ---
 
-## Workflow (`dotfiles-git`)
+## 🚀 Quick Setup / Installation
 
-A custom wrapper located at `~/.local/bin/dotfiles-git` automates path resolution and bare Git operations against `$HOME`:
+To link these configurations to `~/.config/` on a new machine:
 
 ```bash
-# Check status from any directory
-dotfiles-git status
-
-# Pre-stage core paths and commit
-dotfiles-git commit -m "your message"
-
-# Push to remote (auto-stages modified core paths and the helper script)
-dotfiles-git push -u origin main
-
-# Add new configs relative to $HOME
-dotfiles-git add ~/.config/path/to/file
+git clone https://github.com/<your-username>/<your-repo>.git ~/PROGRAMMING/dotfiles_config
+cd ~/PROGRAMMING/dotfiles_config
+./install.sh
 ```
+
+The script will automatically back up any existing folders in `~/.config/` and create symbolic links pointing back to this repository.
+
+---
+
+## ⌨️ Keybindings
+
+| Keybinding | Action |
+| :--- | :--- |
+| `Super + A` | Open Custom App Drawer (`drawer.py`) |
+| `Super + S` | Open Quick Settings Panel (`quicksettings.py`) |
+| `Super + C` | VS Code |
+| `Super + B` | Brave Browser |
+| `Super + G` | Steam |
+| `Super + E` | Thunar File Manager |
+| `Super + I` | GNOME Control Center |
+| `Ctrl + Alt + T` | Terminal (Ptyxis) |
+| `Super + Shift + Esc` | Process Monitor (`btop`) |
+| `Ctrl + Shift + Alt + B` | Reload Waybar |
+| `Super + Q` | Close Active Window |
+| `Super + F11` | Toggle Floating Window |

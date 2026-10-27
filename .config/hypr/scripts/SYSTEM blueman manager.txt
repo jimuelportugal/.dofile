@@ -1,0 +1,71 @@
+SYSTEM
+"blueman-manager.desktop",  # Bluetooth Manager
+"btop.desktop",  # btop++
+"org.fedoraproject.MediaWriter.desktop",  # Fedora Media Writer
+"org.gnome.baobab.desktop",  # Disk Usage Analyzer
+"org.gnome.Characters.desktop",  # Characters
+"org.gnome.clocks.desktop",  # Clocks
+"org.gnome.Connections.desktop",  # Connections
+"org.gnome.DiskUtility.desktop",  # Disks
+"org.gnome.Logs.desktop",  # Logs
+"org.gnome.SystemMonitor.desktop",  # System Monitor
+
+My APPS
+"brave-origin.desktop",  # Brave Origin
+"org.mozilla.firefox.desktop",  # Firefox
+"net.blockbench.blockbench.desktop",  # Blockbench
+"org.gnome.Software.desktop",  # Software
+"thunar.desktop",  # Thunar File Manager
+
+CODING
+"code.desktop",  # Visual Studio Code
+"Godot Engine.desktop",  # Godot Engine
+"org.gnome.Boxes.desktop",  # Boxes
+"org.gnome.Ptyxis.desktop",  # Terminal
+"org.gnome.TextEditor.desktop",  # Text Editor
+"scrcpy-console.desktop",  # scrcpy (console)
+"scrcpy.desktop",  # scrcpy
+"org.gnome.Contacts.desktop",  # Contacts
+
+GAMES
+"steam.desktop",  # Steam
+"Don't Starve Together.desktop",  # Don't Starve Together
+"Kenshi.desktop",  # Kenshi
+"org.ppsspp.PPSSPP.desktop",  # PPSSPP
+"Project Zomboid.desktop",  # Project Zomboid
+"R.E.P.O..desktop",  # R.E.P.O.
+"RIMWORLD.desktop",  # RIMWORLD
+"Terraria.desktop",  # Terraria
+"The Elder Scrolls V Skyrim Special Edition.desktop",  # The Elder Scrolls V: Skyrim Special Edition
+"Valheim.desktop",  # Valheim
+
+DOCUMENT ETC
+"libreoffice-calc.desktop",  # LibreOffice Calc
+"libreoffice-writer.desktop",  # LibreOffice Writer
+"libreoffice-impress.desktop",  # LibreOffice Impress
+"org.gnome.Loupe.desktop",  # Image Viewer
+"org.gnome.Nautilus.desktop",  # Files
+"org.gnome.Papers.desktop",  # Document Viewer
+"org.gnome.Showtime.desktop",  # Video Player
+"org.gnome.Decibels.desktop",  # Audio Player
+"org.gnome.Snapshot.desktop",  # Camera
+"org.gnome.SimpleScan.desktop",  # Document Scanner
+"org.kde.krita.desktop",  # Krita
+
+CONFIGS
+"fcitx5-configtool.desktop",  # Fcitx 5 Configuration
+"io.github.jeffshee.Hidamari.desktop",  # Hidamari
+"kbd-layout-viewer5.desktop",  # Keyboard layout viewer
+"nwg-panel-config.desktop",  # nwg-panel Settings
+"org.gnome.ColorProfileViewer.desktop",  # Color Profile Viewer
+"org.gnome.font-viewer.desktop",  # Fonts
+"rofi.desktop",  # Rofi
+"rofi-theme-selector.desktop",  # Rofi Theme Selector
+"rygel-preferences.desktop",  # Rygel Preferences
+"thunar-bulk-rename.desktop",  # Bulk Rename
+"thunar-settings.desktop",  # Thunar Preferences
+
+App list for the drawer
+
+
+

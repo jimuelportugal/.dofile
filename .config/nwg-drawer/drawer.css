@@ -1,0 +1,43 @@
+window {
+    background-color: rgba(14, 10, 20, 0.92);
+    border-radius: 0 0 16px 16px;
+    border: none;
+    padding: 16px;
+}
+
+/* Compact Search Bar */
+entry {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 12px;
+    color: #f8f8fc;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+}
+
+entry:focus {
+    border-color: #ff4d94;
+    outline: none;
+}
+
+/* App Grid Tiles: Icon top, Text bottom */
+button {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 8px 4px;
+    color: #f8f8fc;
+    transition: none;
+}
+
+button:hover, button:focus {
+    background-color: rgba(255, 255, 255, 0.10);
+    border: 1px solid #ff4d94;
+}
+
+/* Text label underneath icon */
+button label {
+    font-size: 8.5pt;
+    color: #f8f8fc;
+    margin-top: 4px;
+}

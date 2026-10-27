@@ -93,4 +93,4 @@ lfc() {
 
 # Source extra format file if present
 
-alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias dotfiles='dotfiles-git'

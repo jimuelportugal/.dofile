@@ -1,0 +1,183 @@
+@import 'colors.css';
+
+.thunar,
+window.thunar,
+.thunar window,
+messagedialog,
+dialog,
+.dialog-action-box,
+.dialog-action-area,
+.thunar:backdrop,
+window.thunar:backdrop {
+    background-color: #1e1e2e;
+    color: #cdd6f4;
+}
+
+.thunar .sidebar,
+.thunar .sidebar view,
+.thunar .sidebar .view,
+.thunar side-pane,
+.thunar treeview.sidebar,
+.thunar .sidebar:backdrop,
+.thunar side-pane:backdrop {
+    background-color: #181825;
+    color: #cdd6f4;
+}
+
+.thunar side-pane {
+    border-right: 1px solid #89b4fa;
+}
+
+.thunar .sidebar view:hover,
+.thunar .sidebar .view:hover {
+    background-color: #313244;
+    border-radius: 4px;
+}
+
+.thunar .standard-view,
+.thunar .standard-view .view,
+.thunar .standard-view widget,
+.thunar .standard-view grid,
+.thunar ExoIconView,
+.thunar icon-view,
+.thunar treeview,
+.thunar scrolledwindow,
+.thunar view,
+.thunar widget.view,
+.thunar .standard-view:backdrop,
+.thunar view:backdrop,
+.thunar ExoIconView:backdrop {
+    background-color: #1e1e2e;
+    color: #cdd6f4;
+}
+
+.thunar treeview.view header button,
+.thunar .standard-view treeview header button,
+treeview header button {
+    background-color: #11111b;
+    color: #cdd6f4;
+    font-weight: bold;
+    border: none;
+    border-bottom: 2px solid #89b4fa;
+    border-right: 1px solid #313244;
+    padding: 6px 10px;
+    box-shadow: none;
+}
+
+.thunar treeview.view header button:hover,
+.thunar .standard-view treeview header button:hover {
+    background-color: #313244;
+    color: #89b4fa;
+}
+
+.thunar infobar,
+infobar,
+.thunar .action-bar,
+action-bar {
+    background-color: #11111b;
+    color: #cdd6f4;
+    border-bottom: 1px solid #89b4fa;
+}
+
+messagedialog .titlebar,
+dialog .titlebar {
+    background-color: #11111b;
+    color: #cdd6f4;
+}
+
+.thunar menubar,
+.thunar menubar:backdrop,
+.thunar toolbar,
+.thunar toolbar:backdrop,
+.thunar headerbar,
+.thunar headerbar:backdrop {
+    background-color: #11111b;
+    color: #cdd6f4;
+    border: none;
+}
+
+.thunar entry,
+.thunar entry:backdrop {
+    background-color: #181825;
+    color: #cdd6f4;
+    border: 1px solid #89b4fa;
+    border-radius: 6px;
+    padding: 4px 8px;
+}
+
+.thunar entry:focus {
+    border-color: #89b4fa;
+    box-shadow: 0 0 0 1px #89b4fa;
+}
+
+.thunar menubar > menuitem,
+.thunar menubar > menuitem:backdrop {
+    background-color: transparent;
+    color: #cdd6f4;
+    border: none;
+    box-shadow: none;
+}
+
+.thunar statusbar,
+.thunar statusbar:backdrop {
+    background-color: #181825;
+    color: #cdd6f4;
+    border-top: 1px solid #89b4fa;
+}
+
+.thunar .standard-view .view:selected,
+.thunar ExoIconView:selected,
+.thunar icon-view:selected,
+.thunar treeview:selected,
+.thunar view:selected,
+.thunar .sidebar view:selected,
+.thunar view:selected:backdrop {
+    background-color: #89b4fa;
+    color: #11111b;
+}
+
+.thunar .rubberband,
+rubberband,
+.thunar .view.rubberband,
+.thunar ExoIconView.rubberband,
+.thunar icon-view.rubberband,
+XfceIconView.rubberband {
+    background-color: rgba(137, 180, 250, 0.25);
+    border: 1px solid #89b4fa;
+}
+
+menu,
+.menu,
+.thunar menu,
+.thunar .menu,
+window.popup menu {
+    background-color: #11111b;
+    color: #cdd6f4;
+    border: 2px solid #89b4fa;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    padding: 6px;
+}
+
+menu menuitem,
+.menu menuitem,
+menu > menuitem {
+    background-color: transparent;
+    color: #cdd6f4;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 12px;
+    margin: 1px 0;
+}
+
+menu menuitem:hover,
+.menu menuitem:hover,
+menu > menuitem:hover {
+    background-color: #89b4fa;
+    color: #11111b;
+}
+
+menu menuitem:disabled,
+.menu menuitem:disabled {
+    color: #585b70;
+}
