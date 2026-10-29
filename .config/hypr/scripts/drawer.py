@@ -8,96 +8,174 @@ import signal
 
 LOCK_FILE = "/tmp/hypr_app_drawer.pid"
 
-# Single-instance toggle: if already running, signal it to slide down
-if os.path.exists(LOCK_FILE):
-    try:
-        with open(LOCK_FILE, "r") as f:
-            pid = int(f.read().strip())
-        os.kill(pid, signal.SIGUSR1)
-        sys.exit(0)
-    except (ProcessLookupError, ValueError):
-        if os.path.exists(LOCK_FILE):
-            os.remove(LOCK_FILE)
+def check_single_instance():
+    # Single-instance toggle: if already running, signal it to slide down
+    if os.path.exists(LOCK_FILE):
+        try:
+            with open(LOCK_FILE, "r") as f:
+                pid = int(f.read().strip())
+            os.kill(pid, signal.SIGUSR1)
+            sys.exit(0)
+        except (ProcessLookupError, ValueError):
+            if os.path.exists(LOCK_FILE):
+                os.remove(LOCK_FILE)
 
-with open(LOCK_FILE, "w") as f:
-    f.write(str(os.getpid()))
+    with open(LOCK_FILE, "w") as f:
+        f.write(str(os.getpid()))
 
 gi.require_version('Gtk', '3.0')
 gi.require_version('GtkLayerShell', '0.1')
 from gi.repository import Gtk, Gdk, Gio, GtkLayerShell, GLib
 
-CATEGORIES = {
-    "SYSTEM": [
-        "blueman-manager.desktop",
-        "btop.desktop",
-        "org.fedoraproject.MediaWriter.desktop",
-        "org.gnome.baobab.desktop",
-        "org.gnome.Characters.desktop",
-        "org.gnome.clocks.desktop",
-        "org.gnome.Connections.desktop",
-        "org.gnome.DiskUtility.desktop",
-        "org.gnome.Logs.desktop",
-        "org.gnome.SystemMonitor.desktop",
-    ],
-    "MY APPS": [
-        "brave-origin.desktop",
-        "org.mozilla.firefox.desktop",
-        "net.blockbench.blockbench.desktop",
-        "org.gnome.Software.desktop",
-        "thunar.desktop",
-    ],
-    "CODING": [
-        "code.desktop",
-        "Godot Engine.desktop",
-        "org.gnome.Boxes.desktop",
-        "org.gnome.Ptyxis.desktop",
-        "org.gnome.TextEditor.desktop",
-        "scrcpy-console.desktop",
-        "scrcpy.desktop",
-        "org.gnome.Contacts.desktop",
-    ],
-    "GAMES": [
-        "steam.desktop",
-        "Don't Starve Together.desktop",
-        "Kenshi.desktop",
-        "org.ppsspp.PPSSPP.desktop",
-        "Project Zomboid.desktop",
-        "R.E.P.O..desktop",
-        "RIMWORLD.desktop",
-        "Terraria.desktop",
-        "The Elder Scrolls V Skyrim Special Edition.desktop",
-        "Valheim.desktop",
-    ],
-    "DOCUMENT ETC": [
-        "libreoffice-calc.desktop",
-        "libreoffice-writer.desktop",
-        "libreoffice-impress.desktop",
-        "org.gnome.Loupe.desktop",
-        "org.gnome.Nautilus.desktop",
-        "org.gnome.Papers.desktop",
-        "org.gnome.Showtime.desktop",
-        "org.gnome.Decibels.desktop",
-        "org.gnome.Snapshot.desktop",
-        "org.gnome.SimpleScan.desktop",
-        "org.kde.krita.desktop",
-    ],
-    "CONFIGS": [
-        "fcitx5-configtool.desktop",
-        "io.github.jeffshee.Hidamari.desktop",
-        "kbd-layout-viewer5.desktop",
-        "nwg-panel-config.desktop",
-        "org.gnome.ColorProfileViewer.desktop",
-        "org.gnome.font-viewer.desktop",
-        "rofi.desktop",
-        "rofi-theme-selector.desktop",
-        "rygel-preferences.desktop",
-        "thunar-bulk-rename.desktop",
-        "thunar-settings.desktop",
-    ]
+# The order categories appear from top to bottom
+CATEGORY_ORDER = ["SYSTEM", "MY APPS", "CODING", "GAMES", "DOCUMENT ETC", "CONFIGS"]
+
+# Pinned Overrides:
+# Put any app here if you want it in a specific category or to pin its position.
+# Any newly installed app NOT in this list will be AUTOMATICALLY categorized
+# based on its system .desktop metadata, so new apps always appear dynamically!
+PINNED_OVERRIDES = {
+    # SYSTEM
+    "blueman-manager.desktop": "SYSTEM",
+    "btop.desktop": "SYSTEM",
+    "org.fedoraproject.MediaWriter.desktop": "SYSTEM",
+    "org.gnome.baobab.desktop": "SYSTEM",
+    "org.gnome.Characters.desktop": "SYSTEM",
+    "org.gnome.clocks.desktop": "SYSTEM",
+    "org.gnome.Connections.desktop": "SYSTEM",
+    "org.gnome.DiskUtility.desktop": "SYSTEM",
+    "org.gnome.Logs.desktop": "SYSTEM",
+    "org.gnome.SystemMonitor.desktop": "SYSTEM",
+
+    # MY APPS
+    "brave-origin.desktop": "MY APPS",
+    "org.mozilla.firefox.desktop": "MY APPS",
+    "net.blockbench.blockbench.desktop": "MY APPS",
+    "org.gnome.Software.desktop": "MY APPS",
+    "thunar.desktop": "MY APPS",
+
+    # CODING
+    "code.desktop": "CODING",
+    "Godot Engine.desktop": "CODING",
+    "org.gnome.Boxes.desktop": "CODING",
+    "org.gnome.Ptyxis.desktop": "CODING",
+    "org.gnome.TextEditor.desktop": "CODING",
+    "scrcpy-console.desktop": "CODING",
+    "scrcpy.desktop": "CODING",
+    "org.gnome.Contacts.desktop": "CODING",
+
+    # GAMES
+    "steam.desktop": "GAMES",
+    "Don't Starve Together.desktop": "GAMES",
+    "Kenshi.desktop": "GAMES",
+    "org.ppsspp.PPSSPP.desktop": "GAMES",
+    "Project Zomboid.desktop": "GAMES",
+    "R.E.P.O..desktop": "GAMES",
+    "RIMWORLD.desktop": "GAMES",
+    "Terraria.desktop": "GAMES",
+    "The Elder Scrolls V Skyrim Special Edition.desktop": "GAMES",
+    "Valheim.desktop": "GAMES",
+
+    # DOCUMENT ETC
+    "libreoffice-calc.desktop": "DOCUMENT ETC",
+    "libreoffice-writer.desktop": "DOCUMENT ETC",
+    "libreoffice-impress.desktop": "DOCUMENT ETC",
+    "org.gnome.Loupe.desktop": "DOCUMENT ETC",
+    "org.gnome.Nautilus.desktop": "DOCUMENT ETC",
+    "org.gnome.Papers.desktop": "DOCUMENT ETC",
+    "org.gnome.Showtime.desktop": "DOCUMENT ETC",
+    "org.gnome.Decibels.desktop": "DOCUMENT ETC",
+    "org.gnome.Snapshot.desktop": "DOCUMENT ETC",
+    "org.gnome.SimpleScan.desktop": "DOCUMENT ETC",
+    "org.kde.krita.desktop": "DOCUMENT ETC",
+
+    # CONFIGS
+    "fcitx5-configtool.desktop": "CONFIGS",
+    "io.github.jeffshee.Hidamari.desktop": "CONFIGS",
+    "kbd-layout-viewer5.desktop": "CONFIGS",
+    "nwg-panel-config.desktop": "CONFIGS",
+    "org.gnome.ColorProfileViewer.desktop": "CONFIGS",
+    "org.gnome.font-viewer.desktop": "CONFIGS",
+    "rofi.desktop": "CONFIGS",
+    "rofi-theme-selector.desktop": "CONFIGS",
+    "rygel-preferences.desktop": "CONFIGS",
+    "thunar-bulk-rename.desktop": "CONFIGS",
+    "thunar-settings.desktop": "CONFIGS",
 }
 
-def get_installed_apps():
-    apps = {}
+def detect_category(filename, app_name, categories_str):
+    fn_lower = filename.lower()
+    fn_no_ext = fn_lower[:-8] if fn_lower.endswith(".desktop") else fn_lower
+
+    # 1. Pinned Overrides (exact or without .desktop)
+    for p_name, p_cat in PINNED_OVERRIDES.items():
+        p_lower = p_name.lower()
+        p_no_ext = p_lower[:-8] if p_lower.endswith(".desktop") else p_lower
+        if fn_lower == p_lower or fn_no_ext == p_no_ext:
+            return p_cat
+
+    cats = set(c.strip().lower() for c in (categories_str or "").split(";") if c.strip())
+    name_lower = app_name.lower()
+
+    # 2. Games (Steam, Heroic, Lutris, emulators, etc.)
+    game_keywords = {
+        "game", "emulator", "actiongame", "adventuregame", "arcadegame",
+        "boardgame", "cardgame", "kidsgame", "logicgame", "roleplaying",
+        "shooter", "simulation", "sportsgame", "strategygame"
+    }
+    if cats.intersection(game_keywords) or "steam_app_" in fn_lower:
+        return "GAMES"
+
+    # 3. Coding / Development / Terminals
+    dev_keywords = {
+        "development", "ide", "debugger", "revisioncontrol",
+        "webdevelopment", "guidance"
+    }
+    if cats.intersection(dev_keywords) or "code" in name_lower or "terminal" in name_lower:
+        return "CODING"
+
+    # 4. Settings / Configurations
+    settings_keywords = {
+        "settings", "desktopsettings", "hardwaresettings", "preferences", "security"
+    }
+    if cats.intersection(settings_keywords) or any(k in name_lower for k in ["settings", "config", "preference"]):
+        return "CONFIGS"
+
+    # 5. Documents, Media, Office, Graphics
+    doc_keywords = {
+        "office", "graphics", "audiovideo", "audio", "video", "music",
+        "player", "recorder", "viewer", "rastergraphics", "2dgraphics",
+        "vectorgraphics", "scanning", "photography", "publishing",
+        "spreadsheet", "wordprocessor", "presentation"
+    }
+    if cats.intersection(doc_keywords):
+        return "DOCUMENT ETC"
+
+    # 6. Internet, Communication & User Apps
+    net_keywords = {
+        "network", "webbrowser", "chat", "instantmessaging",
+        "telephony", "email", "feed", "filetransfer"
+    }
+    if cats.intersection(net_keywords):
+        return "MY APPS"
+
+    # 7. System Tools
+    sys_keywords = {
+        "system", "monitor", "packagemanager", "core", "filesystem", "filetools"
+    }
+    if cats.intersection(sys_keywords):
+        return "SYSTEM"
+
+    # 8. Utilities
+    if "utility" in cats:
+        if "texteditor" in cats:
+            return "CODING"
+        return "SYSTEM"
+
+    # 9. Fallback: Any new unrecognized app goes into MY APPS so it always appears!
+    return "MY APPS"
+
+def get_installed_and_categorized_apps():
     search_paths = [
         os.path.expanduser("~/.local/share/applications"),
         "/var/lib/flatpak/exports/share/applications",
@@ -105,52 +183,75 @@ def get_installed_apps():
         "/usr/local/share/applications",
         "/usr/share/applications"
     ]
-    
+
+    xdg_dirs = os.environ.get("XDG_DATA_DIRS", "").split(":")
+    for d in xdg_dirs:
+        p = os.path.join(d, "applications")
+        if p and os.path.isdir(p) and p not in search_paths:
+            search_paths.append(p)
+
+    seen_files = set()
+    seen_names = set()
+    categorized_apps = {cat: [] for cat in CATEGORY_ORDER}
+
     for base_dir in search_paths:
         if not os.path.isdir(base_dir):
             continue
         for filepath in glob.glob(os.path.join(base_dir, "*.desktop")):
             filename = os.path.basename(filepath)
-            if filename in apps:
+            if filename in seen_files:
                 continue
-            
+            seen_files.add(filename)
+
             try:
                 app_info = Gio.DesktopAppInfo.new_from_filename(filepath)
             except Exception:
                 app_info = None
 
-            if not app_info:
+            if not app_info or not app_info.should_show():
                 continue
+
+            app_name = app_info.get_name() or filename.replace(".desktop", "")
+            name_key = app_name.lower().strip()
+            if name_key in seen_names:
+                continue
+            seen_names.add(name_key)
 
             icon = app_info.get_icon()
             icon_name = icon.to_string() if icon else "application-x-executable"
+            categories_str = app_info.get_categories() if hasattr(app_info, "get_categories") else ""
 
             app_data = {
-                "name": app_info.get_name() or filename.replace(".desktop", ""),
+                "name": app_name,
                 "icon": icon_name,
+                "gicon": icon,
                 "app_info": app_info,
+                "filename": filename
             }
-            apps[filename] = app_data
-            apps[filename.lower()] = app_data
-            apps[filename.replace(".desktop", "")] = app_data
-            apps[filename.replace(".desktop", "").lower()] = app_data
 
-    return apps
+            cat = detect_category(filename, app_name, categories_str)
+            if cat not in categorized_apps:
+                categorized_apps[cat] = []
+            categorized_apps[cat].append(app_data)
+
+    # Sort each category:
+    # Pinned apps maintain priority order, followed by newly installed apps sorted alphabetically
+    pinned_keys = [k.lower().replace(".desktop", "") for k in PINNED_OVERRIDES.keys()]
+    for cat in categorized_apps:
+        def sort_key(app):
+            fn_key = app["filename"].lower().replace(".desktop", "")
+            if fn_key in pinned_keys:
+                return (0, pinned_keys.index(fn_key))
+            return (1, app["name"].lower())
+        categorized_apps[cat].sort(key=sort_key)
+
+    return categorized_apps
 
 class AppDrawer(Gtk.Window):
     def __init__(self):
         super().__init__()
-        
-        all_apps = get_installed_apps()
-        categorized_apps = {cat: [] for cat in CATEGORIES}
 
-        for cat, app_filenames in CATEGORIES.items():
-            for filename in app_filenames:
-                clean_name = filename.strip()
-                if clean_name in all_apps:
-                    categorized_apps[cat].append(all_apps[clean_name])
-                elif clean_name.lower() in all_apps:
-                    categorized_apps[cat].append(all_apps[clean_name.lower()])
+        categorized_apps = get_installed_and_categorized_apps()
 
         # Layer-shell configuration
         GtkLayerShell.init_for_window(self)
@@ -196,7 +297,7 @@ class AppDrawer(Gtk.Window):
         self.add(outer_box)
 
         scrolled = Gtk.ScrolledWindow()
-        scrolled.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.EXTERNAL)
+        scrolled.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
         outer_box.pack_start(scrolled, True, True, 0)
 
         main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=16)
@@ -307,7 +408,13 @@ class AppDrawer(Gtk.Window):
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
         box.set_halign(Gtk.Align.CENTER)
 
-        image = Gtk.Image.new_from_icon_name(app_data["icon"], Gtk.IconSize.DIALOG)
+        gicon = app_data.get("gicon")
+        if gicon:
+            image = Gtk.Image.new_from_gicon(gicon, Gtk.IconSize.DIALOG)
+        elif app_data.get("icon") and os.path.isabs(app_data["icon"]) and os.path.exists(app_data["icon"]):
+            image = Gtk.Image.new_from_file(app_data["icon"])
+        else:
+            image = Gtk.Image.new_from_icon_name(app_data.get("icon", "application-x-executable"), Gtk.IconSize.DIALOG)
         image.set_pixel_size(48)
 
         lbl = Gtk.Label(label=app_data["name"])
@@ -398,13 +505,17 @@ scrollbar slider {
 }
 """
 css_provider.load_from_data(css)
-Gtk.StyleContext.add_provider_for_screen(
-    Gdk.Screen.get_default(),
-    css_provider,
-    Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-)
-
 if __name__ == "__main__":
+    check_single_instance()
+
+    screen = Gdk.Screen.get_default()
+    if screen:
+        Gtk.StyleContext.add_provider_for_screen(
+            screen,
+            css_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+
     win = AppDrawer()
     win.connect("destroy", lambda w: win.cleanup_and_quit())
     
