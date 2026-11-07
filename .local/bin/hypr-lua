@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -e
+
+HYPR_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/hypr"
+
+echo "=== Hyprland Config Switcher: LUA ==="
+
+if [ -f "$HYPR_DIR/hyprland.lua" ]; then
+    echo "✓ hyprland.lua is already active."
+elif [ -f "$HYPR_DIR/hyprland.lua.disabled" ]; then
+    mv "$HYPR_DIR/hyprland.lua.disabled" "$HYPR_DIR/hyprland.lua"
+    echo "✓ Enabled hyprland.lua."
+else
+    echo "✗ Error: Neither hyprland.lua nor hyprland.lua.disabled found in $HYPR_DIR" >&2
+    exit 1
+fi
+
+echo "Checking config syntax..."
+if command -v Hyprland >/dev/null 2>&1; then
+    Hyprland --verify-config
+fi
+
+if pgrep -x Hyprland >/dev/null 2>&1; then
+    echo "Reloading Hyprland..."
+    hyprctl reload || true
+    hyprctl notify 1 3000 "rgb(88c0d0)" "Hyprland: Active config -> LUA" 2>/dev/null || true
+    command -v notify-send >/dev/null 2>&1 && notify-send -u low "Hyprland" "Switched to Lua configuration (hyprland.lua)" || true
+fi
+
+echo "========================================"
+echo " Active Configuration: Lua (hyprland.lua)"
+echo "========================================"
+

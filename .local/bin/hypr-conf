@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -e
+
+HYPR_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/hypr"
+
+echo "=== Hyprland Config Switcher: CONF (Legacy) ==="
+
+if [ -f "$HYPR_DIR/hyprland.lua" ]; then
+    mv "$HYPR_DIR/hyprland.lua" "$HYPR_DIR/hyprland.lua.disabled"
+    echo "✓ Disabled hyprland.lua (renamed to hyprland.lua.disabled)."
+elif [ -f "$HYPR_DIR/hyprland.conf" ]; then
+    echo "✓ Legacy hyprland.conf is already active."
+else
+    echo "✗ Error: hyprland.conf not found in $HYPR_DIR" >&2
+    exit 1
+fi
+
+echo "Checking config syntax..."
+if command -v Hyprland >/dev/null 2>&1; then
+    Hyprland --verify-config
+fi
+
+if pgrep -x Hyprland >/dev/null 2>&1; then
+    echo "Reloading Hyprland..."
+    hyprctl reload || true
+    hyprctl notify 1 3000 "rgb(ebcb8b)" "Hyprland: Active config -> CONF" 2>/dev/null || true
+    command -v notify-send >/dev/null 2>&1 && notify-send -u low "Hyprland" "Switched to legacy configuration (hyprland.conf)" || true
+fi
+
+echo "=========================================="
+echo " Active Configuration: Legacy (hyprland.conf)"
+echo "=========================================="
+

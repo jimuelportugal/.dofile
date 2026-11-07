@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+HYPR_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/hypr"
+
+echo "=== Hyprland Configuration Status ==="
+if [ -f "$HYPR_DIR/hyprland.lua" ]; then
+    echo " Active Config: LUA (hyprland.lua)"
+    echo " Fallback File: hyprland.conf (present)"
+elif [ -f "$HYPR_DIR/hyprland.conf" ]; then
+    echo " Active Config: LEGACY CONF (hyprland.conf)"
+    if [ -f "$HYPR_DIR/hyprland.lua.disabled" ]; then
+        echo " Lua File:      hyprland.lua.disabled (ready to activate with 'hypr-lua')"
+    fi
+else
+    echo " No valid configuration found in $HYPR_DIR"
+fi
+echo "======================================"
+

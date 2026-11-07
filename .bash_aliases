@@ -68,10 +68,18 @@ toggle-kbd() {
 # Terminal Refresh
 alias trefresh='source ~/.bashrc'
 
+# Hyprland Config Switchers
+alias hypr-lua='/home/irys/PROGRAMMING/dotfiles_config/.local/bin/hypr-lua'
+alias hypr-conf='/home/irys/PROGRAMMING/dotfiles_config/.local/bin/hypr-conf'
+alias hypr-status='/home/irys/PROGRAMMING/dotfiles_config/.local/bin/hypr-status'
+
 mendou() {
     echo "tconfig        : Open ~/.bashrc in VS CODE"
     echo "aconfig        : Open ~/.bash_aliases in VS CODE"
     echo "trefresh       : Reload bash configuration"
+    echo "hypr-lua       : Switch Hyprland to modern Lua config (.lua)"
+    echo "hypr-conf      : Switch Hyprland to legacy config (.conf)"
+    echo "hypr-status    : Check active Hyprland configuration format"
     echo "print-enable   : Start and unmask CUPS service"
     echo "print-disable  : Stop and mask CUPS service"
     echo "yt             : Launch YTDLP script"

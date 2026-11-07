@@ -4,9 +4,16 @@ DOTFILES_DIR="${DOTFILES_DIR:-$HOME/PROGRAMMING/dotfiles_config}"
 GIT_CMD="/usr/bin/git -C $DOTFILES_DIR"
 
 stage_all() {
-    # Automatically stage all modified tracked files and the helper
+    # If hyprland.lua was temporarily disabled, preserve it in the git index
+    if [ -f "$DOTFILES_DIR/.config/hypr/hyprland.lua.disabled" ] && [ ! -f "$DOTFILES_DIR/.config/hypr/hyprland.lua" ]; then
+        cp "$DOTFILES_DIR/.config/hypr/hyprland.lua.disabled" "$DOTFILES_DIR/.config/hypr/hyprland.lua"
+        $GIT_CMD add "$DOTFILES_DIR/.config/hypr/hyprland.lua"
+        rm -f "$DOTFILES_DIR/.config/hypr/hyprland.lua"
+    fi
+    # Automatically stage all modified tracked files and helpers
     $GIT_CMD add -u
     $GIT_CMD add "$DOTFILES_DIR/.local/bin/dotfiles-git" 2>/dev/null || true
+    $GIT_CMD add "$DOTFILES_DIR/.local/bin/hypr-lua" "$DOTFILES_DIR/.local/bin/hypr-conf" "$DOTFILES_DIR/.local/bin/hypr-status" 2>/dev/null || true
 }
 
 case "$1" in
