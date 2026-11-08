@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+<action>
+	<icon>utilities-terminal</icon>
+	<name>Open Terminal Here</name>
+	<submenu></submenu>
+	<unique-id>1-open-terminal-here</unique-id>
+	<command>/home/irys/.local/bin/thunar-terminal %f</command>
+	<description>Open a terminal window inside this directory</description>
+	<range></range>
+	<patterns>*</patterns>
+	<startup-notify/>
+	<directories/>
+	<other-files/>
+	<text-files/>
+	<image-files/>
+	<audio-files/>
+	<video-files/>
+</action>
+<action>
+	<icon>dialog-password</icon>
+	<name>Open as Root</name>
+	<submenu></submenu>
+	<unique-id>2-open-as-root</unique-id>
+	<command>pkexec thunar %f</command>
+	<description>Open folder with administrative root privileges</description>
+	<range></range>
+	<patterns>*</patterns>
+	<startup-notify/>
+	<directories/>
+</action>
+<action>
+	<icon>edit-find</icon>
+	<name>Find in this Folder</name>
+	<submenu></submenu>
+	<unique-id>3-find-in-folder</unique-id>
+	<command>/usr/bin/ptyxis --new-window --working-directory="%f" -e bash -c 'echo "Searching in %f..."; read -p "Search pattern: " query; find . -iname "*$query*" | less'</command>
+	<description>Search for files recursively within this directory</description>
+	<range></range>
+	<patterns>*</patterns>
+	<startup-notify/>
+	<directories/>
+</action>
+<action>
+	<icon>document-properties</icon>
+	<name>Compute SHA256 Checksum</name>
+	<submenu></submenu>
+	<unique-id>4-compute-sha256</unique-id>
+	<command>/usr/bin/ptyxis --new-window -e bash -c 'echo "Computing SHA256 for: %n"; echo "---------------------------------------------"; sha256sum %f; echo "---------------------------------------------"; read -p "Press Enter to close..."'</command>
+	<description>Calculate SHA-256 hash of the selected file</description>
+	<range></range>
+	<patterns>*</patterns>
+	<startup-notify/>
+	<audio-files/>
+	<image-files/>
+	<other-files/>
+	<text-files/>
+	<video-files/>
+</action>
+</actions>

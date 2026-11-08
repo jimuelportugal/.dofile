@@ -218,7 +218,7 @@ hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 -- Screenshots (Hyprshot)
 local screenshot_dir = "/home/irys/Pictures/Screenshots"
 local screenshot_fmt = 'Screenshot from $(date +"%Y-%m-%d %H-%M-%S").png'
-hl.bind("Print",                   hl.dsp.exec_cmd(string.format('/home/irys/.local/bin/hyprshot -m output -o "%s" -f "%s"', screenshot_dir, screenshot_fmt)))
+hl.bind("Print",                   hl.dsp.exec_cmd(string.format('/home/irys/.local/bin/hyprshot -m output -m active -o "%s" -f "%s"', screenshot_dir, screenshot_fmt)))
 hl.bind(mainMod .. " + Print",     hl.dsp.exec_cmd(string.format('/home/irys/.local/bin/hyprshot -m region -o "%s" -f "%s"', screenshot_dir, screenshot_fmt)))
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd(string.format('/home/irys/.local/bin/hyprshot -m window -o "%s" -f "%s"', screenshot_dir, screenshot_fmt)))
 

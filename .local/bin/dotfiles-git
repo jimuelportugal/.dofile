@@ -13,7 +13,7 @@ stage_all() {
     # Automatically stage all modified tracked files and helpers
     $GIT_CMD add -u
     $GIT_CMD add "$DOTFILES_DIR/.local/bin/dotfiles-git" 2>/dev/null || true
-    $GIT_CMD add "$DOTFILES_DIR/.local/bin/hypr-lua" "$DOTFILES_DIR/.local/bin/hypr-conf" "$DOTFILES_DIR/.local/bin/hypr-status" 2>/dev/null || true
+    $GIT_CMD add "$DOTFILES_DIR/.local/bin/hypr-lua" "$DOTFILES_DIR/.local/bin/hypr-conf" "$DOTFILES_DIR/.local/bin/hypr-status" "$DOTFILES_DIR/.local/bin/thunar-terminal" 2>/dev/null || true
 }
 
 case "$1" in

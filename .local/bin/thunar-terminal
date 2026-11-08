@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# =============================================================================
+# Thunar Terminal Launcher for Ptyxis
+# Robust directory resolver for Thunar's Custom Actions
+# =============================================================================
+
+target=""
+
+# 1. Parse argument passed from Thunar (%f or %U)
+if [ -n "$1" ]; then
+    arg="$1"
+    # Strip file:// prefix if present
+    arg="${arg#file://}"
+    # Decode percent-encoded characters (e.g. %20 -> space)
+    arg=$(printf '%b' "${arg//%/\\x}" 2>/dev/null || echo "$arg")
+
+    if [ -d "$arg" ]; then
+        target="$arg"
+    elif [ -f "$arg" ]; then
+        target="$(dirname "$arg")"
+    fi
+fi
+
+# 2. If target is still empty or not a directory, use $PWD (current Thunar folder)
+if [ -z "$target" ] || [ ! -d "$target" ]; then
+    target="$PWD"
+fi
+
+# 3. Fallback to $HOME if somehow still invalid
+if [ -z "$target" ] || [ ! -d "$target" ]; then
+    target="$HOME"
+fi
+
+# 4. Navigate to directory and launch Ptyxis in a new window
+cd "$target" && exec /usr/bin/ptyxis --new-window --working-directory="$target"
+
