@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import json
 import math
 import os
@@ -8,7 +7,6 @@ import sys
 LOCK_FILE = "/tmp/hypr_app_drawer.pid"
 
 def check_single_instance():
-    # Single-instance toggle: if already running, signal it to slide down
     if os.path.exists(LOCK_FILE):
         try:
             with open(LOCK_FILE, "r") as f:
@@ -51,7 +49,6 @@ def detect_category(filename, app_name, categories_str, pinned_overrides):
     fn_clean = fn_lower[:-8] if fn_lower.endswith(".desktop") else fn_lower
     name_lower = app_name.lower().strip()
 
-    # 1. Check optional user overrides from JSON
     for p_name, p_cat in pinned_overrides.items():
         p_lower = p_name.lower()
         p_clean = p_lower[:-8] if p_lower.endswith(".desktop") else p_lower
@@ -60,7 +57,6 @@ def detect_category(filename, app_name, categories_str, pinned_overrides):
 
     cats = set(c.strip().lower() for c in (categories_str or "").split(";") if c.strip())
 
-    # 2. Games
     game_keywords = {
         "game", "emulator", "actiongame", "adventuregame", "arcadegame",
         "boardgame", "cardgame", "kidsgame", "logicgame", "roleplaying",
@@ -69,7 +65,6 @@ def detect_category(filename, app_name, categories_str, pinned_overrides):
     if cats.intersection(game_keywords) or "steam" in fn_lower or "steam_app_" in fn_lower:
         return "GAMES"
 
-    # 3. Coding / Development / Terminals
     dev_keywords = {
         "development", "ide", "debugger", "revisioncontrol",
         "webdevelopment", "guidance", "terminal", "texteditor", "programming"
@@ -77,14 +72,12 @@ def detect_category(filename, app_name, categories_str, pinned_overrides):
     if cats.intersection(dev_keywords) or any(k in name_lower for k in ["code", "terminal", "ptyxis", "godot", "scrcpy"]):
         return "CODING"
 
-    # 4. Settings / Configurations
     settings_keywords = {
         "settings", "desktopsettings", "hardwaresettings", "preferences", "security"
     }
     if cats.intersection(settings_keywords) or any(k in name_lower for k in ["setting", "config", "preference"]):
         return "CONFIGS"
 
-    # 5. Documents, Media, Office, Graphics
     doc_keywords = {
         "office", "graphics", "audiovideo", "audio", "video", "music",
         "player", "recorder", "viewer", "rastergraphics", "2dgraphics",
@@ -94,14 +87,12 @@ def detect_category(filename, app_name, categories_str, pinned_overrides):
     if cats.intersection(doc_keywords):
         return "DOCUMENT ETC"
 
-    # 6. System Tools
     sys_keywords = {
         "system", "monitor", "packagemanager", "core", "filesystem", "filetools"
     }
     if cats.intersection(sys_keywords) or any(k in name_lower for k in ["monitor", "disk", "writer"]):
         return "SYSTEM"
 
-    # 7. Fallback: Any new unrecognized app goes into MY APPS so it ALWAYS appears!
     return "MY APPS"
 
 def get_installed_and_categorized_apps():
@@ -116,7 +107,6 @@ def get_installed_and_categorized_apps():
         if not app_info:
             continue
 
-        # Exclude apps explicitly marked NoDisplay=true
         if hasattr(app_info, "get_nodisplay") and app_info.get_nodisplay():
             continue
 
@@ -151,8 +141,6 @@ def get_installed_and_categorized_apps():
             categorized_apps[cat] = []
         categorized_apps[cat].append(app_data)
 
-    # Sort each category:
-    # Pinned apps maintain priority order, followed by alphabetized new apps
     pinned_keys = [k.lower().replace(".desktop", "") for k in pinned_overrides.keys()]
     for cat in categorized_apps:
         def sort_key(app):
@@ -173,12 +161,10 @@ class AppDrawer(Gtk.Window):
 
         categorized_apps = get_installed_and_categorized_apps()
 
-        # Layer-shell configuration
         GtkLayerShell.init_for_window(self)
         GtkLayerShell.set_layer(self, GtkLayerShell.Layer.TOP)
         GtkLayerShell.set_keyboard_mode(self, GtkLayerShell.KeyboardMode.ON_DEMAND)
         
-        # Anchor to bottom edge
         GtkLayerShell.set_anchor(self, GtkLayerShell.Edge.BOTTOM, True)
         GtkLayerShell.set_anchor(self, GtkLayerShell.Edge.TOP, False)
         GtkLayerShell.set_anchor(self, GtkLayerShell.Edge.LEFT, False)
@@ -197,14 +183,17 @@ class AppDrawer(Gtk.Window):
         self.drawer_width = 880 + (self.flare_size * 2)
         self.set_size_request(self.drawer_width, self.drawer_height)
 
-        # Animation state
         self.current_offset = self.drawer_height
         self.anim_id = None
         self.is_closing = False
+        self.can_dismiss = False
+        self.mouse_inside = False
 
-        # Set initial hidden margin
         GtkLayerShell.set_margin(self, GtkLayerShell.Edge.BOTTOM, -self.current_offset)
 
+        self.add_events(Gdk.EventMask.ENTER_NOTIFY_MASK | Gdk.EventMask.LEAVE_NOTIFY_MASK)
+        self.connect("enter-notify-event", self.on_mouse_enter)
+        self.connect("leave-notify-event", self.on_mouse_leave)
         self.connect("draw", self.on_draw)
         self.connect("key-press-event", self.on_key_press)
         self.connect("focus-out-event", self.on_focus_out)
@@ -249,8 +238,23 @@ class AppDrawer(Gtk.Window):
 
             main_box.pack_start(grid, False, False, 0)
 
-        # Trigger smooth entry slide
-        self.start_animation(target_offset=0, on_done=None)
+        self.start_animation(target_offset=0, on_done=self.on_open_completed)
+
+    def on_mouse_enter(self, widget, event):
+        self.mouse_inside = True
+        return False
+
+    def on_mouse_leave(self, widget, event):
+        self.mouse_inside = False
+        return False
+
+    def on_open_completed(self):
+        GLib.timeout_add(300, self._enable_dismiss)
+
+    def _enable_dismiss(self):
+        if not self.is_closing:
+            self.can_dismiss = True
+        return False
 
     def start_animation(self, target_offset, on_done=None):
         if self.anim_id is not None:
@@ -295,7 +299,6 @@ class AppDrawer(Gtk.Window):
         cr.paint()
         cr.set_operator(2)
 
-        # Silhouette path
         cr.move_to(0, height)
         cr.arc_negative(0, height - f, f, math.pi / 2, 0)
         cr.line_to(f, r)
@@ -307,11 +310,9 @@ class AppDrawer(Gtk.Window):
         cr.line_to(0, height)
         cr.close_path()
 
-        # Solid dark gray
         cr.set_source_rgba(0.09, 0.09, 0.10, 1.0)
         cr.fill_preserve()
 
-        # Subtle border
         cr.set_source_rgba(0.9, 0.9, 0.9, 0.12)
         cr.set_line_width(1.0)
         cr.stroke()
@@ -363,6 +364,8 @@ class AppDrawer(Gtk.Window):
         Gtk.main_quit()
 
     def on_focus_out(self, widget, event):
+        if not self.can_dismiss or self.mouse_inside:
+            return False
         self.slide_close()
         return False
 
@@ -442,7 +445,6 @@ if __name__ == "__main__":
     win = AppDrawer()
     win.connect("destroy", lambda w: win.cleanup_and_quit())
     
-    # Catch toggle signal and cleanly slide down
     signal.signal(signal.SIGUSR1, lambda s, f: GLib.idle_add(win.slide_close))
     signal.signal(signal.SIGTERM, lambda s, f: GLib.idle_add(win.slide_close))
     
