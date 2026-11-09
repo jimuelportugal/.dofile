@@ -186,7 +186,7 @@ class AppDrawer(Gtk.Window):
         self.current_offset = self.drawer_height
         self.anim_id = None
         self.is_closing = False
-        self.can_dismiss = False
+        self.rule_active = False
         self.mouse_inside = False
 
         GtkLayerShell.set_margin(self, GtkLayerShell.Edge.BOTTOM, -self.current_offset)
@@ -238,22 +238,16 @@ class AppDrawer(Gtk.Window):
 
             main_box.pack_start(grid, False, False, 0)
 
-        self.start_animation(target_offset=0, on_done=self.on_open_completed)
+        # Trigger smooth entry slide
+        self.start_animation(target_offset=0, on_done=None)
 
     def on_mouse_enter(self, widget, event):
         self.mouse_inside = True
+        self.rule_active = True
         return False
 
     def on_mouse_leave(self, widget, event):
         self.mouse_inside = False
-        return False
-
-    def on_open_completed(self):
-        GLib.timeout_add(300, self._enable_dismiss)
-
-    def _enable_dismiss(self):
-        if not self.is_closing:
-            self.can_dismiss = True
         return False
 
     def start_animation(self, target_offset, on_done=None):
@@ -364,7 +358,7 @@ class AppDrawer(Gtk.Window):
         Gtk.main_quit()
 
     def on_focus_out(self, widget, event):
-        if not self.can_dismiss or self.mouse_inside:
+        if not self.rule_active or self.mouse_inside:
             return False
         self.slide_close()
         return False
