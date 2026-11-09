@@ -141,6 +141,3 @@ The script will automatically back up any existing folders in `~/.config/` and c
 
 **Hardware Input Toggle:**
 * `~/.config/hypr/scripts/toggle-laptop-inputs.sh` (bound to `SUPER + F6`, pending script implementation)
-
-**Desktop Entries:**
-* `~/.local/share/applications/antigravity-ide.desktop` (local IDE integration)
