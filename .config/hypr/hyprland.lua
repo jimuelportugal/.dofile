@@ -54,6 +54,10 @@ hl.config({
         },
         sensitivity = 0,
     },
+    binds = {
+        scroll_event_delay = 0,
+        pass_mouse_when_bound = false,
+    },
 })
 
 --------------------------------------------------------------------------------
@@ -116,9 +120,9 @@ hl.animation({ leaf = "windowsOut",    enabled = true,  speed = 1.49, bezier = "
 hl.animation({ leaf = "fadeIn",        enabled = true,  speed = 1.73, bezier = "almostLinear" })
 hl.animation({ leaf = "fadeOut",       enabled = true,  speed = 1.46, bezier = "almostLinear" })
 hl.animation({ leaf = "fade",          enabled = true,  speed = 3.03, bezier = "quick" })
-hl.animation({ leaf = "workspaces",    enabled = true,  speed = 1.94, bezier = "almostLinear", style = "fade" })
-hl.animation({ leaf = "workspacesIn",  enabled = true,  speed = 1.21, bezier = "almostLinear", style = "fade" })
-hl.animation({ leaf = "workspacesOut", enabled = true,  speed = 1.94, bezier = "almostLinear", style = "fade" })
+hl.animation({ leaf = "workspaces",    enabled = true,  speed = 2.5,  bezier = "easeInOutCubic", style = "slide" })
+hl.animation({ leaf = "workspacesIn",  enabled = true,  speed = 2.5,  bezier = "easeInOutCubic", style = "slide" })
+hl.animation({ leaf = "workspacesOut", enabled = true,  speed = 2.5,  bezier = "easeInOutCubic", style = "slide" })
 
 --------------------------------------------------------------------------------
 -- 9. LAYOUTS
@@ -207,9 +211,9 @@ for i = 1, 10 do
     hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
 end
 
--- Workspace scrolling with mouse wheel
-hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
-hl.bind(mainMod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }))
+-- Workspace scrolling with mouse wheel (open/used workspaces only, bounded without wrap)
+hl.bind(mainMod .. " + mouse_down", hl.dsp.exec_cmd("/home/irys/.config/hypr/scripts/scroll-workspace.sh down"))
+hl.bind(mainMod .. " + mouse_up",   hl.dsp.exec_cmd("/home/irys/.config/hypr/scripts/scroll-workspace.sh up"))
 
 -- Mouse drag and resize
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
