@@ -64,3 +64,83 @@ The script will automatically back up any existing folders in `~/.config/` and c
 | `Ctrl + Shift + Alt + B` | Reload Waybar |
 | `Super + Q` | Close Active Window |
 | `Super + F11` | Toggle Floating Window |
+
+---
+
+## 📁 Repository File Map
+
+### 📦 Tracked
+
+**Shell & Core Configuration:**
+* `~/.bashrc`
+* `~/.bash_aliases`
+* `~/.bashrcprintf`
+
+**Repository & Configuration Switcher CLIs:**
+* `~/.local/bin/dotfiles-git` (automated staging, commit, and push manager)
+* `~/.local/bin/hypr-lua` (activate modern Lua configuration engine)
+* `~/.local/bin/hypr-conf` (activate legacy fallback configuration)
+* `~/.local/bin/hypr-status` (check currently active compositor configuration mode)
+* `~/.local/bin/thunar-terminal` (POSIX path resolver for context-menu terminal launches)
+
+**Compositor (Hyprland):**
+* `~/.config/hypr/hyprland.lua` (primary Lua configuration with GNOME slide animations & input limits)
+* `~/.config/hypr/hyprland.conf` (legacy fallback synchronized with Lua parity)
+* `~/.config/hypr/wallpaper.jpg`
+* `~/.config/hypr/screenshot-active.sh`
+* `~/.config/hypr/drawer_pinned.json` (category mapping and priority pins for drawer)
+
+**Compositor Scripts & Launchers:**
+* `~/.config/hypr/scripts/drawer.py` (Cairo-curved GTK3 layer-shell app drawer with dynamic XDG discovery and hover arming)
+* `~/.config/hypr/scripts/scroll-workspace.sh` (active-only bounded workspace scroll switcher with Lua IPC dispatch)
+* `~/.config/hypr/scripts/quicksettings.py` (quick settings control panel)
+
+**File Manager & Desktop Theme (Kali-Dark 1:1):**
+* `~/.config/Thunar/uca.xml` (custom context-menu actions: terminal, root edit, search, checksum)
+* `~/.config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml` (view preferences, side-pane, and layout)
+* `~/.config/gtk-3.0/gtk.css` (Kali-Dark styling, breadcrumb pills, and dark mode palette)
+* `~/.config/gtk-3.0/colors.css`
+* `~/.config/gtk-3.0/settings.ini`
+* `~/.config/gtk-3.0/bookmarks`
+
+**Status Bar (Waybar):**
+* `~/.config/waybar/config.jsonc`
+* `~/.config/waybar/style.css`
+* `~/.config/waybar/menu.xml`
+* `~/.config/waybar/rofi-wifi.sh`
+* `~/.config/waybar/scripts/slider-popup.py`
+
+**Session Power Menu:**
+* `~/.config/wlogout/` (all themes, modern/glass layouts, icons, noise texture, colors)
+
+**Input Method (Fcitx5):**
+* `~/.config/fcitx5/config`
+* `~/.config/fcitx5/profile`
+* `~/.config/fcitx5/conf/cached_layouts`
+* `~/.config/fcitx5/conf/notifications.conf`
+* `~/.config/fcitx5/conf/wayland.conf`
+
+**Device Remapping (input-remapper-2):**
+* `~/.config/input-remapper-2/config.json`
+* `~/.config/input-remapper-2/xmodmap.json`
+* `~/.config/input-remapper-2/presets/` (all device JSON presets)
+
+**Audio Routing:**
+* `~/.config/pipewire/pipewire.conf.d/reverse-audio.conf`
+
+**Launcher Menus:**
+* `~/.config/rofi/wifi.rasi`
+* `~/.config/nwg-drawer/drawer.css`
+
+---
+
+### ⏳ Untracked (Pending Review & Staging)
+
+**Volume/Brightness Overlay Bar:**
+* `~/.config/wob/wob.ini` (OSD styling and dimensions present locally in `~/.config/wob/`, pending repo import)
+
+**Hardware Input Toggle:**
+* `~/.config/hypr/scripts/toggle-laptop-inputs.sh` (bound to `SUPER + F6`, pending script implementation)
+
+**Desktop Entries:**
+* `~/.local/share/applications/antigravity-ide.desktop` (local IDE integration)
