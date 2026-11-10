@@ -373,7 +373,7 @@ css_provider = Gtk.CssProvider()
 css = b"""
 window {
     background-color: transparent;
-    font-family: "JetBrainsMono Nerd Font", "JetBrains Mono", sans-serif;
+    font-family: "JetBrainsMono Nerd Font", "JetBrainsMono NF", "JetBrains Mono", "Font Awesome 6 Free", sans-serif;
 }
 flowboxchild,
 flowboxchild:hover,
