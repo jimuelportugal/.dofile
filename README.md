@@ -1,3 +1,7 @@
+> [!IMPORTANT]
+> ## 🚨 [MUST READ: Repository Documentation & Setup Guide](https://github.com/jimuelportugal/.dofile/issues/9#issue-6308226202)
+> *Click above to view the full documentation, installation trace, and setup details.*
+
 # Dotfiles - Fedora Hyprland
 
 Personal dotfiles and Wayland desktop environment setup for **Fedora Linux** using **Hyprland**, **Waybar**, and custom **GTK Layer-Shell** widgets.
