@@ -69,9 +69,9 @@ toggle-kbd() {
 alias trefresh='source ~/.bashrc'
 
 # Hyprland Config Switchers
-alias hypr-lua='/home/irys/PROGRAMMING/dotfiles_config/.local/bin/hypr-lua'
-alias hypr-conf='/home/irys/PROGRAMMING/dotfiles_config/.local/bin/hypr-conf'
-alias hypr-status='/home/irys/PROGRAMMING/dotfiles_config/.local/bin/hypr-status'
+alias hypr-lua='$HOME/.local/bin/hypr-lua'
+alias hypr-conf='$HOME/.local/bin/hypr-conf'
+alias hypr-status='$HOME/.local/bin/hypr-status'
 
 mendou() {
     echo "tconfig        : Open ~/.bashrc in VS CODE"

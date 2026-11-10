@@ -31,6 +31,18 @@ if [ -z "$target" ] || [ ! -d "$target" ]; then
     target="$HOME"
 fi
 
-# 4. Navigate to directory and launch Ptyxis in a new window
-cd "$target" && exec /usr/bin/ptyxis --new-window --working-directory="$target"
+# 4. Navigate to directory and launch preferred terminal in a new window
+cd "$target" || exit 1
+
+if command -v ptyxis >/dev/null 2>&1; then
+    exec ptyxis --new-window --working-directory="$target"
+elif command -v kitty >/dev/null 2>&1; then
+    exec kitty --directory "$target"
+elif command -v alacritty >/dev/null 2>&1; then
+    exec alacritty --working-directory "$target"
+elif command -v foot >/dev/null 2>&1; then
+    exec foot --directory="$target"
+else
+    exec x-terminal-emulator 2>/dev/null || xterm
+fi
 

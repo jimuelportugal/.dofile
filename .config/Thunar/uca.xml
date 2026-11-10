@@ -5,7 +5,7 @@
 	<name>Open Terminal Here</name>
 	<submenu></submenu>
 	<unique-id>1-open-terminal-here</unique-id>
-	<command>/home/irys/.local/bin/thunar-terminal %f</command>
+	<command>thunar-terminal %f</command>
 	<description>Open a terminal window inside this directory</description>
 	<range></range>
 	<patterns>*</patterns>

@@ -115,7 +115,7 @@
         "backlight": {
             "format": "│ {percent}%|{icon}",
             "format-icons": ["🌑", "🌘", "🌗", "🌖", "🌕"],
-            "on-click": "python3 /home/irys/.config/waybar/scripts/slider-popup.py brightness",
+            "on-click": "python3 ~/.config/waybar/scripts/slider-popup.py brightness",
             "on-scroll-up": "brightnessctl set 5%+",
             "on-scroll-down": "brightnessctl set 5%-",
             "smooth-scrolling-threshold": 1
@@ -135,7 +135,7 @@
                 "default": ["", "", ""]
             },
             "scroll-step": 5.0,
-            "on-click": "python3 /home/irys/.config/waybar/scripts/slider-popup.py volume",
+            "on-click": "python3 ~/.config/waybar/scripts/slider-popup.py volume",
             "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
             "smooth-scrolling-threshold": 1
         },

@@ -13,6 +13,12 @@ hl.monitor({
     position = "auto",
     scale    = 1,
 })
+hl.monitor({
+    output   = "",
+    mode     = "preferred",
+    position = "auto",
+    scale    = 1,
+})
 
 --------------------------------------------------------------------------------
 -- 2. VARIABLES & DEFAULT PROGRAMS
@@ -212,19 +218,20 @@ for i = 1, 10 do
 end
 
 -- Workspace scrolling with mouse wheel (open/used workspaces only, bounded without wrap)
-hl.bind(mainMod .. " + mouse_down", hl.dsp.exec_cmd("/home/irys/.config/hypr/scripts/scroll-workspace.sh down"))
-hl.bind(mainMod .. " + mouse_up",   hl.dsp.exec_cmd("/home/irys/.config/hypr/scripts/scroll-workspace.sh up"))
+local home = os.getenv("HOME") or "/home/" .. (os.getenv("USER") or "user")
+hl.bind(mainMod .. " + mouse_down", hl.dsp.exec_cmd(home .. "/.config/hypr/scripts/scroll-workspace.sh down"))
+hl.bind(mainMod .. " + mouse_up",   hl.dsp.exec_cmd(home .. "/.config/hypr/scripts/scroll-workspace.sh up"))
 
 -- Mouse drag and resize
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 -- Screenshots (Hyprshot)
-local screenshot_dir = "/home/irys/Pictures/Screenshots"
+local screenshot_dir = home .. "/Pictures/Screenshots"
 local screenshot_fmt = 'Screenshot from $(date +"%Y-%m-%d %H-%M-%S").png'
-hl.bind("Print",                   hl.dsp.exec_cmd(string.format('/home/irys/.local/bin/hyprshot -m output -m active -o "%s" -f "%s"', screenshot_dir, screenshot_fmt)))
-hl.bind(mainMod .. " + Print",     hl.dsp.exec_cmd(string.format('/home/irys/.local/bin/hyprshot -m region -o "%s" -f "%s"', screenshot_dir, screenshot_fmt)))
-hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd(string.format('/home/irys/.local/bin/hyprshot -m window -o "%s" -f "%s"', screenshot_dir, screenshot_fmt)))
+hl.bind("Print",                   hl.dsp.exec_cmd(string.format('%s/.local/bin/hyprshot -m output -m active -o "%s" -f "%s"', home, screenshot_dir, screenshot_fmt)))
+hl.bind(mainMod .. " + Print",     hl.dsp.exec_cmd(string.format('%s/.local/bin/hyprshot -m region -o "%s" -f "%s"', home, screenshot_dir, screenshot_fmt)))
+hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd(string.format('%s/.local/bin/hyprshot -m window -o "%s" -f "%s"', home, screenshot_dir, screenshot_fmt)))
 
 -- Hardware & Media Controls (WOB overlay socket integration)
 local wob_mute_cmd        = [[pamixer -t && ( [ "$(pamixer --get-mute)" = "true" ] && echo 0 > $XDG_RUNTIME_DIR/wob.sock || pamixer --get-volume > $XDG_RUNTIME_DIR/wob.sock )]]

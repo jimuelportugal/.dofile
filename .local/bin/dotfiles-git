@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-DOTFILES_DIR="${DOTFILES_DIR:-$HOME/PROGRAMMING/dotfiles_config}"
+if [ -z "$DOTFILES_DIR" ]; then
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    DOTFILES_DIR="$(git -C "$SCRIPT_DIR/.." rev-parse --show-toplevel 2>/dev/null || (cd "$SCRIPT_DIR/../.." 2>/dev/null && pwd) || echo "$HOME/PROGRAMMING/dotfiles_config")"
+fi
 GIT_CMD="/usr/bin/git -C $DOTFILES_DIR"
 
 stage_all() {

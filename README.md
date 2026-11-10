@@ -34,17 +34,33 @@ Matches the standard `$HOME` hierarchy:
 
 ---
 
-## 🚀 Quick Setup / Installation
+## 🚀 Universal Installer & Setup
 
-To link these configurations to `~/.config/` on a new machine:
+The included installer (`install.sh`) is designed to set up and configure any machine or user account across multiple Linux distributions (Fedora, Arch Linux, Debian/Ubuntu, openSUSE).
 
+### Quick Install:
 ```bash
-git clone https://github.com/<your-username>/<your-repo>.git ~/PROGRAMMING/dotfiles_config
-cd ~/PROGRAMMING/dotfiles_config
+git clone https://github.com/jimuelportugal/.dofile.git ~/.dotfiles
+cd ~/.dotfiles
 ./install.sh
 ```
 
-The script will automatically back up any existing folders in `~/.config/` and create symbolic links pointing back to this repository.
+### Key Capabilities:
+* **Multi-Distribution Detection**: Automatically detects package managers (`dnf`, `pacman`, `apt`, `zypper`) and offers to install required dependencies (Hyprland, Waybar, Swaybg, Wob, Pamixer, Brightnessctl, PyGObject, Thunar, etc.).
+* **Nerd Font Auto-Provisioning**: Checks for JetBrainsMono Nerd Font and automatically downloads/installs it if missing so icons and glyphs render cleanly.
+* **Safe Centralized Backups**: Pre-existing configurations are non-destructively archived into a timestamped directory `~/.dotfiles_backup_<timestamp>/`.
+* **Hardware & User Independence**: All configs use dynamic user paths (`$HOME`) and universal display fallback rules (`monitor = , preferred, auto, 1`) to adapt seamlessly across different laptops, desktops, and user accounts.
+* **Automatic PATH Configuration**: Ensures `~/.local/bin` is exported to `$PATH` in `.bashrc`.
+
+### Command-Line Options:
+| Flag | Description |
+| :--- | :--- |
+| `./install.sh` | Interactive guided installation |
+| `./install.sh -y` / `--yes` | Unattended automated installation (auto-confirm all steps) |
+| `./install.sh -n` / `--dry-run` | Preview all actions without modifying the filesystem |
+| `./install.sh -l` / `--link-only` | Only update/create configuration symlinks (skip package installs) |
+| `./install.sh -d` / `--deps-only` | Only check and install system packages |
+| `./install.sh --no-fonts` | Skip Nerd Font check and download |
 
 ---
 
